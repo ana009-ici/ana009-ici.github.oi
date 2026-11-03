@@ -23,4 +23,8 @@ app.use((err, req, res, next) => {
   if (status === 500) console.error(err);
   res.status(status).json({ message: status === 500 ? "Erro interno do servidor." : err.message, details: err.details });
 });
-app.listen(process.env.PORT || 3333, () => console.log("API rodando"));
+if (!process.env.VERCEL) {
+  app.listen(process.env.PORT || 3333, () => console.log("API rodando"));
+}
+
+module.exports = app;
