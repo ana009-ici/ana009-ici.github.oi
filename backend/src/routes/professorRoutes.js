@@ -1,0 +1,10 @@
+const r = require("express").Router();
+const c = require("../controllers/professorController");
+const permissao = require("../middleware/verificarPermissao");
+r.get("/alunos", permissao("professor"), c.alunos);
+r.get("/alunos/:id/portfolio", permissao("professor"), c.portfolio);
+r.route("/compartilhamentos").get(c.compartilhamentos).post(permissao("aluno", "administrador"), c.compartilhar);
+r.delete("/compartilhamentos/:id", permissao("aluno", "administrador"), c.revogar);
+r.route("/comentarios").get(c.listarComentarios).post(permissao("professor"), c.comentar);
+r.route("/avaliacoes").get(c.listarAvaliacoes).post(permissao("professor"), c.avaliar);
+module.exports = r;
